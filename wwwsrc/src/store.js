@@ -27,6 +27,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
+
+    // USER ACTIONS 
+
     register({ commit, dispatch }, newUser) {
       auth.post('register', newUser)
         .then(res => {
@@ -55,6 +58,18 @@ export default new Vuex.Store({
         })
         .catch(e => {
           console.log('Login Failed')
+        })
+    },
+
+    // CREATE NEW VAULT
+
+    newVault({ commit, dispatch }, creds) {
+      auth.post('', creds)
+        .then(res => {
+          commit('')
+        })
+        .catch(e => {
+          console.log('Failed to create new vault')
         })
     }
   }
