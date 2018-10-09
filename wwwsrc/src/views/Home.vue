@@ -3,7 +3,7 @@
     <v-toolbar class="toolbar">
       <v-toolbar-title class="upper toolbar-title">keepr</v-toolbar-title>
       <v-spacer></v-spacer>
-      <button class="upper logout" raised>logout</button>
+      <button class="upper logout" raised @click="logoutDialog = true">logout</button>
     </v-toolbar>
 
     <div class="page-wrapper">
@@ -69,6 +69,22 @@
         </v-card>
       </v-dialog>
 
+      <v-dialog v-model="logoutDialog" width="800">
+        <v-card>
+          <v-card-title class="upper">Logout</v-card-title>
+
+          <v-divider></v-divider>
+
+          <v-card-text class="upper">are you sure you want to logout?</v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn class="upper" @click="logoutDialog = false">cancel</v-btn>
+            <v-btn class="upper" @click="logout">logout</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
     </div>
   </div>
 </template>
@@ -88,7 +104,8 @@ export default {
         title: "",
         link: "",
         description: ""
-      }
+      },
+      logoutDialog: false
     };
   },
   computed: {
@@ -103,7 +120,9 @@ export default {
     }
   },
   methods: {
-    logout() {},
+    logout() {
+      this.$store.dispatch("logout");
+    },
     newVault() {
       this.$store.dispatch("newVault", { ...this.newVaultDialog });
       this.newVaultDialog.title = "";

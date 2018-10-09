@@ -60,10 +60,20 @@ export default new Vuex.Store({
           console.log('Login Failed')
         })
     },
+    logout({ commit, dispatch }, creds) {
+      auth.delete('logout')
+        .then(res => {
+          commit('setUser', res.data)
+          router.push({ name: 'login' })
+        })
+        .catch(e => {
+          console.log('Failed to logout')
+        })
+    },
 
     // CREATE NEW VAULT
 
-    newVault({ commit, dispatch }, creds) {
+    newVault({ commit, dispatch }) {
       auth.post('', creds)
         .then(res => {
           commit('')
