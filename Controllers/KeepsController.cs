@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using keepr.Models;
 using keepr.Repositories;
@@ -17,16 +18,33 @@ namespace keepr.Controllers
     }
 
     [HttpGet]
+    public IEnumerable<Keep> GetAll()
+    {
+      return _repo.GetPublicKeeps();
+    }
+
+    [Authorize]
+    [HttpGet("myKeeps")]
     public IEnumerable<Keep> Get()
     {
       var userId = HttpContext.User.Identity.Name;
       return _repo.GetByUserId(userId);
     }
 
-    // [Authorize]
-    // [HttpPost]
-    // public Keep keep 
-    // // public void Post([FromBody])
+
+    [Authorize]
+    [HttpPost]
+    public Keep Post([FromBody] Keep keep)
+    {
+      if (ModelState.IsValid)
+      {
+        keep.UserId = HttpContext.User.Identity.Name;
+        return _repo.Create(keep);
+      }
+      throw new Exception("INVALID KEEP");
+    }
+
+    // public void Post([FromBody])
 
     // [HttpPut("{id}")]
 

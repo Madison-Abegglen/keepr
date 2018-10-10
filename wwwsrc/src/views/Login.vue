@@ -21,26 +21,26 @@
           <v-container>
             <v-container>
               <v-card-title class="upper">
-                <v-text class="join-title">Login or Register to see more of Keepr</v-text>
+                <p class="join-title">Login or Register to see more of Keepr</p>
               </v-card-title>
             </v-container>
 
             <v-divider color="#2ec4b6"></v-divider>
 
-            <v-form v-if="loginForm">
-              <v-text class="form-title">Use a free account to access more features</v-text>
+            <form v-if="loginForm">
+              <p class="form-title">Use a free account to access more features</p>
               <v-text-field type="email" v-model="creds.email" label="Email Address"></v-text-field>
               <v-text-field type="password" v-model="creds.password" label="Password"></v-text-field>
-              <v-btn class="mb1" @click="login">Login</v-btn> 
-            </v-form>
+              <v-btn type="submit" class="mb1" @click="loginUser">Login</v-btn> 
+            </form>
 
-            <v-form v-else>
-              <v-text class="form-title">Use a free account to access more features</v-text>
+            <form v-else>
+              <p class="form-title">Use a free account to access more features</p>
               <v-text-field type="text" v-model="newUser.username" label="Name"></v-text-field>
               <v-text-field type="email" v-model="newUser.email" label="Email Address"></v-text-field>
               <v-text-field type="password" v-model="newUser.password" label="Password"></v-text-field>
-              <v-btn class="mb1" @click="register">Create Account</v-btn>
-            </v-form>
+              <v-btn type="submit" class="mb1" @click="register">Create Account</v-btn>
+            </form>
 
 
             <!-- CHANGE FORM LOGIN/REGISTER -->
@@ -49,13 +49,13 @@
 
             <div class="mt1">
               <div v-if="loginForm" >
-                <v-text>No account? Click to register</v-text>
+                <p>No account? Click to register</p>
                 <div>
                   <v-btn class="mt1"  @click="loginForm = !loginForm">Register</v-btn>
                 </div>
               </div>
               <div v-else>
-                <v-text>Already have an account? Click to login</v-text>
+                <p>Already have an account? Click to login</p>
                 <div>
                   <v-btn class="mt1"  @click="loginForm = !loginForm">Login</v-btn>
                 </div>
@@ -109,10 +109,10 @@ export default {
   },
   methods: {
     register() {
-      this.$store.dispatch("register", newUser);
+      this.$store.dispatch("register", this.newUser);
     },
     loginUser() {
-      this.$store.dispatch("login", creds);
+      this.$store.dispatch("login", this.creds);
     }
   }
 };

@@ -20,13 +20,16 @@ let api = Axios.create({
 export default new Vuex.Store({
   state: {
     user: {},
-    userKeeps: {},
+    userKeeps: [],
     publicKeeps: {},
     vaultKeeps: {}
   },
   mutations: {
     setUser(state, user) {
       state.user = user
+    },
+    setUserKeeps(state, userKeeps) {
+      state.userKeeps = userKeeps;
     }
   },
   actions: {
@@ -75,10 +78,10 @@ export default new Vuex.Store({
     },
 
     // GET USER KEEPS 
-    getUserKeeps({ commit }, userId) {
-      api.get('' + userId)
+    getUserKeeps({ commit }) {
+      api.get('keeps/myKeeps')
         .then(res => {
-          commit('userKeeps', res.data)
+          commit('setUserKeeps', res.data)
         })
         .catch(e => {
           console.log('Failed to get user keeps')
@@ -87,8 +90,10 @@ export default new Vuex.Store({
 
     // CREATE NEW KEEP
     newKeep({ commit, dispatch }, creds) {
-      api.post('', creds)
+      debugger
+      api.post('keeps', creds)
         .then(res => {
+          debugger;
           dispatch('getUserKeeps')
         })
         .catch(e => {
