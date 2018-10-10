@@ -19,7 +19,10 @@ let api = Axios.create({
 
 export default new Vuex.Store({
   state: {
-    user: {}
+    user: {},
+    userKeeps: {},
+    publicKeeps: {},
+    vaultKeeps: {}
   },
   mutations: {
     setUser(state, user) {
@@ -71,16 +74,39 @@ export default new Vuex.Store({
         })
     },
 
-    // CREATE NEW VAULT
-
-    newVault({ commit, dispatch }) {
-      auth.post('', creds)
+    // GET USER KEEPS 
+    getUserKeeps({ commit }, userId) {
+      api.get('' + userId)
         .then(res => {
-          commit('')
+          commit('userKeeps', res.data)
         })
         .catch(e => {
-          console.log('Failed to create new vault')
+          console.log('Failed to get user keeps')
+        })
+    },
+
+    // CREATE NEW KEEP
+    newKeep({ commit, dispatch }, creds) {
+      api.post('', creds)
+        .then(res => {
+          dispatch('getUserKeeps')
+        })
+        .catch(e => {
+          console.log('Failed to create keep')
         })
     }
+
+
+    // CREATE NEW VAULT
+
+    // newVault({ commit, dispatch }, creds) {
+    // auth.post('', creds)
+    //   .then(res => {
+    //     commit('')
+    //   })
+    //   .catch(e => {
+    //     console.log('Failed to create new vault')
+    //   })
+    // }
   }
 })

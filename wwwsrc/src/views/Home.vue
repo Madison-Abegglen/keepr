@@ -1,79 +1,122 @@
 <template>
   <div> 
-    <v-toolbar class="toolbar">
-      <v-toolbar-title class="upper toolbar-title">keepr</v-toolbar-title>
+    <!-- TOOLBAR SECTION -->
+
+    <v-toolbar app>
+      <v-toolbar-title class="upper toolbar-title">keep*r</v-toolbar-title>
       <v-spacer></v-spacer>
-      <button class="upper logout" raised @click="logoutDialog = true">logout</button>
+
+      <v-card class="searchbar">
+        <v-text-field label="Search Keepr" prepend prepend-icon="search">
+        </v-text-field>
+      </v-card>
+
+      <v-btn class="upper logout" raised @click="logoutDialog = true">logout</v-btn>
     </v-toolbar>
 
+
+      <!-- DASHBOARD SECTION -->
+
+
     <div class="page-wrapper">
+
+      <!-- HEADER -->
+
       <section>
         <h1 class="upper heading">welcome to <br/> {{user.username}}'s dashboard</h1>
       </section>
     
-      <v-divider></v-divider>
-    
-      <section class="dashboard">
-        <div class="dashboard-vaults">
-          <h4 class="upper">your vaults</h4>
-          <button @click="newVaultDialog = true" class="fab">
-            <v-icon color="#ffffff">add</v-icon>
-          </button>
-        </div>
+      <v-divider color="#2ec4b6"></v-divider>
 
-        <v-divider></v-divider>
+      <!-- USER VAULTS & KEEPS -->
+        
+      <section>
+        <v-card class="dashboard-vaults">
+          <v-container row wrap>
+            <v-flex xs12>
+              <v-card-title class="upper card-heading">
+                <v-text>Your vaults</v-text>
+                <v-spacer></v-spacer>
+                <v-btn color="#2ec4b6" @click="newVaultDialog = true" fab>
+                  <v-icon color="#ffffff">add</v-icon>
+                </v-btn>
+              </v-card-title>
 
-        <div class="dashboard-keeps">
-          <h4 class="upper">your keeps</h4>
-          <button @click="newKeepDialog = true" class="fab">
-            <v-icon color="#ffffff">add</v-icon>
-          </button>
-        </div>
+              <v-divider color="#2ec4b6"></v-divider>
+              <div class="no-vaults">
+                <v-text class="upper">You currently don't have any vaults</v-text>              
+              </div>
+            </v-flex>
+          </v-container>
+        </v-card>
 
-        <v-divider></v-divider>
+        <v-divider color="#2ec4b6"></v-divider>
+
+        <v-card class="dashboard-keeps">
+          <v-container row wrap>
+            <v-flex xs12>
+              <v-card-title class="upper card-heading">
+                <v-text>Your keeps</v-text>
+                <v-spacer></v-spacer>
+                <v-btn color="#2ec4b6" @click="newKeepDialog = true" fab>
+                  <v-icon color="#ffffff">add</v-icon>
+                </v-btn>
+              </v-card-title>
+
+              <v-divider color="#2ec4b6"></v-divider>
+              <div class="no-keeps">
+                <v-text class="upper">You currently don't have any keeps</v-text>              
+              </div>
+            </v-flex>
+          </v-container>
+        </v-card>
+
+        <v-divider color="#2ec4b6"></v-divider>
       </section>
 
+
+      <!-- DIALOG SECTION -->
+
+
+      <!-- VAULT DIALOG -->
       <v-dialog v-model="newVaultDialog" width="800">
         <v-card class="form">
           <v-card-title class="upper text-bold">Create new vault</v-card-title>
 
-          <v-divider></v-divider>
+          <v-divider color="#2ec4b6"></v-divider>
 
           <v-text-field label="Title" v-model="newVaultDialog.title"></v-text-field>
           <v-text-field label="Description" v-model="newVaultDialog.description"></v-text-field>
 
-          <v-divider></v-divider>
-        
           <v-card-actions>
-            <button class="upper submit text-bold" type="submit" @click="newVault; newVaultDialog = false;">create vault</button>
+            <v-btn type="submit" @click="newVault; newVaultDialog = false;" class="upper">create vault</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
 
-
+      <!-- KEEP DIALOG -->
       <v-dialog v-model="newKeepDialog" width="800">
         <v-card class="form">
-          <v-card-title class="upper text-bold">Create new keep</v-card-title>
+          <v-card-title class="upper">Create new keep</v-card-title>
 
-          <v-divider></v-divider>
+          <v-divider color="#2ec4b6"></v-divider>
 
           <v-text-field label="Title" v-model="newKeepDialog.title"></v-text-field>
           <v-text-field label="Web Link" v-model="newKeepDialog.link"></v-text-field>
           <v-text-field label="Description" v-model="newKeepDialog.description"></v-text-field>
 
-          <v-divider></v-divider>
-
           <v-card-actions>
-            <button class="upper submit" type="submit" @click="newKeep; newKeepDialog = false;">create keep</button>
+            <v-btn type="submit" @click="newKeep; newKeepDialog = false;" class="upper">create keep</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
 
+      <!-- LOGOUT DIALOG -->
       <v-dialog v-model="logoutDialog" width="800">
-        <v-card>
+        <v-card class="form">
           <v-card-title class="upper">Logout</v-card-title>
 
-          <v-divider></v-divider>
+          <v-divider color="#2ec4b6"></v-divider>
 
           <v-card-text class="upper">are you sure you want to logout?</v-card-text>
 
@@ -94,17 +137,17 @@ export default {
   name: "home",
   data() {
     return {
-      newVaultDialog: false,
       newVaultDialog: {
         title: "",
         description: ""
       },
-      newKeepDialog: false,
+      newVaultDialog: false,
       newKeepDialog: {
         title: "",
         link: "",
         description: ""
       },
+      newKeepDialog: false,
       logoutDialog: false
     };
   },
@@ -124,57 +167,45 @@ export default {
       this.$store.dispatch("logout");
     },
     newVault() {
-      this.$store.dispatch("newVault", { ...this.newVaultDialog });
+      this.$store.dispatch("newVault", newVaultDialog);
       this.newVaultDialog.title = "";
       this.newVaultDialog.description = "";
-      this.newVaultDialog = false;
     },
     newKeep() {
-      this.$store.dispatch("newKeep", { ...this.newKeepDialog });
+      this.$store.dispatch("newKeep", newKeepDialog);
       this.newKeepDialog.title = "";
       this.newKeepDialog.link = "";
       this.newKeepDialog.description = "";
-      this.newKeepDialog = false;
     }
   }
 };
 </script>
 
 <style lang="scss">
-.page-wrapper {
-  height: 100%;
-  width: calc(100% - 2rem);
-  margin: 0 1rem;
-  display: flex;
-  flex-direction: column;
-  // padding-bottom: 5rem;
-  background-color: #e9f1e5;
-  overflow-y: auto;
-  position: relative;
-  width: 100%;
-  max-width: 100rem;
-  margin: 0 auto;
-  margin-top: 2rem;
-  display: flex;
-  flex: 1 0;
-  flex-direction: column;
-  padding-top: 64px;
-  padding-bottom: 4rem;
-  padding-left: 5rem;
-  padding-right: 5rem;
-}
+</style>
+
+<style lang="scss" scoped>
 .form {
   display: flex;
   flex-direction: column;
   padding: 0.75rem 1.25rem;
 }
-.form-button {
-  height: 3rem;
-  font-size: 1.15rem;
+.page-wrapper {
+  height: 100%;
+  width: calc(100% - 2rem);
+  max-width: 100rem;
+  margin: auto;
+  margin-top: 2rem;
+  padding-top: 64px;
+  padding-bottom: 4rem;
+  padding-left: 5rem;
+  padding-right: 5rem;
+  display: flex;
+  flex-direction: column;
+  background-color: #d6d6d6;
+  overflow-y: auto;
+  position: relative;
 }
-</style>
-
-<style lang="scss" scoped>
 .upper {
   text-transform: uppercase !important;
   font-weight: bold;
@@ -191,21 +222,11 @@ export default {
   align-items: center;
   margin-right: 1rem;
 }
-.dashboard {
-  display: flex;
-  flex-direction: column;
-}
 .dashboard-vaults {
-  display: flex;
-  justify-content: space-between;
   margin: 1rem;
-  align-items: center;
 }
 .dashboard-keeps {
-  display: flex;
-  justify-content: space-between;
   margin: 1rem;
-  align-items: center;
 }
 .heading {
   margin-bottom: 2rem;
@@ -213,14 +234,7 @@ export default {
   display: flex;
   flex-direction: start;
   text-align: left;
-  color: #2ec4b6;
-}
-.toolbar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
+  color: #565656;
 }
 .toolbar-title {
   margin-top: 1rem;
@@ -231,11 +245,25 @@ export default {
   font-weight: bold;
   color: #e71d36;
 }
-.submit {
-  border: solid 2px #2ec4b6;
-  padding: 1rem;
-  margin-top: 0.75rem;
-  margin-left: 0.75rem;
-  font-weight: bold;
+.searchbar {
+  height: 4rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.25rem;
+  width: 30%;
+}
+.card-heading {
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  color: #2ec4b6;
+}
+.no-vaults {
+  margin: 5rem;
+  color: #7f7f7f;
+}
+.no-keeps {
+  margin: 5rem;
+  color: #7f7f7f;
 }
 </style>
