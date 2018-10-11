@@ -90,10 +90,8 @@ export default new Vuex.Store({
 
     // CREATE NEW KEEP
     newKeep({ commit, dispatch }, creds) {
-      debugger
       api.post('keeps', creds)
         .then(res => {
-          debugger;
           dispatch('getUserKeeps')
         })
         .catch(e => {

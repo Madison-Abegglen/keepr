@@ -64,16 +64,21 @@
               </v-card-title>
 
               <v-divider color="#2ec4b6"></v-divider>
-              <div v-if="userKeeps.length > 0">
-                <v-card v-for="keep in userKeeps" :key="keep.id">
-                  <v-container>
-                    <v-flex xs12>
-                      <v-img src="keep.img" aspect-ratio="2.75"></v-img>
-                      <v-card-title></v-card-title>
-                    </v-flex>
-                  </v-container>
-                </v-card>
-              </div>
+
+              <v-layout v-if="userKeeps.length > 0">
+                <div class="keeps-container">
+                  <v-card v-for="keep in userKeeps" :key="keep._id" class="keep-card" hover> 
+                    <v-img :src="keep.img" aspect-ratio="1.5" class="keep-img"></v-img>
+
+                    <v-card-title primary-title>
+                      <div>
+                        <h4 class="keep-name">{{keep.name}}</h4>
+                        <p class="keep-description">{{keep.description}}</p>
+                      </div>
+                    </v-card-title>
+                  </v-card>
+                </div>
+              </v-layout>
 
               <div v-else class="no-keeps">
                 <p class="upper">You currently don't have any keeps</p>              
@@ -177,6 +182,8 @@ export default {
     //blocks users not logged in
     if (!this.$store.state.user.id) {
       this.$router.push({ name: "login" });
+    } else {
+      this.$store.dispatch("getUserKeeps");
     }
   },
   methods: {
@@ -189,8 +196,13 @@ export default {
       this.newVaultDialog.description = "";
     },
     newKeep() {
-      this.newKeepDialog.isPrivate = this.newKeepDialog.isPrivate ? 1 : 0;
-      this.$store.dispatch("newKeep", this.newKeepDialog);
+      let newKeepData = {
+        name: this.newKeepDialog.name,
+        img: this.newKeepDialog.img,
+        description: this.newKeepDialog.description
+      };
+      newKeepData.isPrivate = this.newKeepDialog.isPrivate ? 1 : 0;
+      this.$store.dispatch("newKeep", newKeepData);
       this.newKeepDialog.name = "";
       this.newKeepDialog.img = "";
       this.newKeepDialog.description = "";
@@ -284,5 +296,29 @@ export default {
 .no-keeps {
   margin: 5rem;
   color: #7f7f7f;
+}
+.keep-card {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-right: 2.5rem;
+  margin-left: 2.5rem;
+  width: 22rem;
+}
+.keep-name {
+  font-size: 2rem;
+  color: #565656;
+  display: flex;
+  justify-content: start;
+}
+.keep-description {
+  font-size: 1.2rem;
+  color: #565656;
+  display: flex;
+  justify-content: start;
+}
+.keeps-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 </style>
