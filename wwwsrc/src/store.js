@@ -21,8 +21,9 @@ export default new Vuex.Store({
   state: {
     user: {},
     userKeeps: [],
-    publicKeeps: {},
-    vaultKeeps: {}
+    publicKeeps: [],
+    userVaults: [],
+    vaultKeeps: []
   },
   mutations: {
     setUser(state, user) {
@@ -30,6 +31,9 @@ export default new Vuex.Store({
     },
     setUserKeeps(state, userKeeps) {
       state.userKeeps = userKeeps;
+    },
+    setUserVaults(state, userVaults) {
+      state.userVaults = userVaults;
     }
   },
   actions: {
@@ -97,19 +101,28 @@ export default new Vuex.Store({
         .catch(e => {
           console.log('Failed to create keep')
         })
-    }
+    },
 
+    getUserVaults({ commit }) {
+      api.get('vaults/myVaults')
+        .then(res => {
+          commit('setUserVaults', res.data)
+        })
+        .catch(e => {
+          console.log('Failed to get user vaults')
+        })
+    },
 
     // CREATE NEW VAULT
 
-    // newVault({ commit, dispatch }, creds) {
-    // auth.post('', creds)
-    //   .then(res => {
-    //     commit('')
-    //   })
-    //   .catch(e => {
-    //     console.log('Failed to create new vault')
-    //   })
-    // }
+    newVault({ commit, dispatch }, creds) {
+      api.post('vaults', creds)
+        .then(res => {
+          dispatch('getUserVaults')
+        })
+        .catch(e => {
+          console.log('Failed to create new vault')
+        })
+    }
   }
 })

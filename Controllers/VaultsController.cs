@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using keepr.Models;
 using keepr.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace keepr.Controllers
@@ -15,10 +17,24 @@ namespace keepr.Controllers
       _repo = repo;
     }
 
-    // [HttpGet]
-    // public IEnumerable<Vault> Get()
-    // {
+    [Authorize]
+    [HttpGet("myVaults")]
+    public IEnumerable<Vault> Get()
+    {
+      var userId = HttpContext.User.Identity.Name;
+      return _repo.GetUserVaults(userId);
+    }
 
-    // }
+    [Authorize]
+    [HttpPost]
+    public Vault Post([FromBody] Vault vault)
+    {
+      if (ModelState.IsValid)
+      {
+        vault.UserId = HttpContext.User.Identity.Name;
+        return _repo.Create(vault);
+      }
+      throw new Exception("INVALID VAULT");
+    }
   }
 }
