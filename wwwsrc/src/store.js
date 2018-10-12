@@ -34,6 +34,9 @@ export default new Vuex.Store({
     },
     setUserVaults(state, userVaults) {
       state.userVaults = userVaults;
+    },
+    setPublicKeeps(state, publicKeeps) {
+      state.publicKeeps = publicKeeps;
     }
   },
   actions: {
@@ -78,6 +81,17 @@ export default new Vuex.Store({
         })
         .catch(e => {
           console.log('Failed to logout')
+        })
+    },
+
+    // GET PUBLIC KEEPS
+    getPublicKeeps({ commit }) {
+      api.get('keeps/publicKeeps')
+        .then(res => {
+          commit('setPublicKeeps', res.data)
+        })
+        .catch(e => {
+          console.log('Failed to get public keeps')
         })
     },
 

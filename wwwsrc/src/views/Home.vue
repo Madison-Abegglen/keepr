@@ -7,10 +7,10 @@
 
       <v-spacer></v-spacer>
 
-      <v-card class="searchbar">
+      <!-- <v-card class="searchbar">
         <v-text-field label="Search Keepr" prepend prepend-icon="search">
         </v-text-field>
-      </v-card>
+      </v-card> -->
 
       <v-btn class="upper logout" raised @click="logoutDialog = true">logout</v-btn>
     </v-toolbar>
@@ -51,18 +51,20 @@
 
         <!-- CURRENT VAULTS SECTION -->
               <v-layout v-if="userVaults.length > 0">
-                <div class="">
-                  <v-card v-for="vault in userVaults" :key="vault._id" class=""> 
-                    <v-img>
-                    <p class="">Vault</p>
-                    </v-img>
-
+                <div class="vaults-container">
+                  <v-card v-for="vault in userVaults" :key="vault._id" class="vault-card" hover> 
                     <v-card-title primary-title>
                       <div>
-                        <h4 class="">{{vault.name}}</h4>
-                        <p class="">{{vault.description}}</p>
+                        <h4 class="vault-name">{{vault.name}}</h4>
+                        <p class="vault-description">{{vault.description}}</p>
                       </div>
                     </v-card-title>
+
+                    <div class="v-card-btn">
+                      <v-btn class="vault-card-actions" fab>
+                        <v-icon color="#e71d36">open_in_new</v-icon>
+                      </v-btn>
+                    </div>
                   </v-card>
                 </div>
               </v-layout>
@@ -93,13 +95,23 @@
         <!-- CURRENT KEEPS SECTION -->
               <v-layout v-if="userKeeps.length > 0">
                 <div class="keeps-container">
-                  <v-card v-for="keep in userKeeps" :key="keep._id" class="keep-card"> 
+                  <v-card v-for="keep in userKeeps" :key="keep._id" class="keep-card" hover> 
                     <v-img 
                       :src="keep.img" 
                       aspect-ratio="1.5" 
                       class="keep-img"
                     >
-                    <p class="keep-card-actions">KEEP</p>
+                    <div>
+                      <v-btn class="keep-card-actions" fab>
+                        <v-icon color="#e71d36">visibility</v-icon>
+                      </v-btn>
+                      <v-btn class="keep-card-actions" fab>
+                        <v-icon color="#e71d36">save_alt</v-icon>
+                      </v-btn>
+                      <v-btn class="keep-card-actions" fab>
+                        <v-icon color="#e71d36">share</v-icon>
+                      </v-btn>
+                    </div>
                     </v-img>
 
                     <v-card-title primary-title>
@@ -348,9 +360,31 @@ export default {
     opacity: 1;
   }
 }
+.vault-card {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-right: 2.5rem;
+  margin-left: 2.5rem;
+  width: 22rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    background-color: #cccccc;
+  }
+  &:hover .vault-card-actions {
+    opacity: 1;
+  }
+}
 .keep-name {
   font-size: 2rem;
-  color: #565656;
+  color: #2ec4b6;
+  display: flex;
+  justify-content: start;
+}
+.vault-name {
+  font-size: 2rem;
+  color: #2ec4b6;
   display: flex;
   justify-content: start;
 }
@@ -360,7 +394,18 @@ export default {
   display: flex;
   justify-content: start;
 }
+.vault-description {
+  font-size: 1.2rem;
+  color: #565656;
+  display: flex;
+  justify-content: center;
+}
 .keeps-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.vaults-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -368,5 +413,12 @@ export default {
 .keep-card-actions {
   opacity: 0;
   transition: opacity 200ms;
+}
+.vault-card-actions {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+.v-card-btn {
+  position: absolute;
 }
 </style>

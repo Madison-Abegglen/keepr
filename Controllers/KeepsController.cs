@@ -17,7 +17,7 @@ namespace keepr.Controllers
       _repo = repo;
     }
 
-    [HttpGet]
+    [HttpGet("publicKeeps")]
     public IEnumerable<Keep> GetAll()
     {
       return _repo.GetPublicKeeps();
