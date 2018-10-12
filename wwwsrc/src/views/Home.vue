@@ -207,12 +207,32 @@
               <p class="activeKeep-description">{{activeKeep.description}}</p>
             </div>
 
-            <p class="activeKeep-views">
-              <v-icon class="view-icon">visibility</v-icon>
-              Views: {{activeKeep.views}}
-            </p>
+            <div>
+              <p class="activeKeep-views">
+                Views: {{activeKeep.views}}
+                <v-icon class="view-icon">visibility</v-icon>
+              </p>
+
+              <v-btn @click="deleteKeepDialogVal = true" class="activeKeep-delete"> 
+                Delete
+                <v-icon class="delete-icon">delete</v-icon>
+              </v-btn>
+            </div>
           </v-card-title>
 
+        </v-card>
+      </v-dialog>
+
+      <v-dialog v-model="deleteKeepDialogVal" width="800">
+        <v-card class="delete-keep-warning">
+          <v-card-title> Warning! </v-card-title>
+
+          <p>Are you sure you want to delete this keep?</p>
+
+          <v-card-actions>
+            <v-btn @click="deleteKeepDialogVal = false" class="upper">Cancel</v-btn>
+            <v-btn @click="deleteKeep(activeKeep)" class="upper">Delete</v-btn>
+          </v-card-actions>
         </v-card>
       </v-dialog>
 
@@ -239,7 +259,8 @@ export default {
       newKeepDialogVal: false,
       logoutDialog: false,
       viewKeepDialogVal: false,
-      activeKeep: {}
+      activeKeep: {},
+      deleteKeepDialogVal: false
     };
   },
 
@@ -294,6 +315,11 @@ export default {
       this.viewKeepDialogVal = true;
       // make put request to increment views
       this.$store.dispatch("incrementViews", this.activeKeep);
+    },
+    deleteKeep(keep) {
+      this.$store.dispatch("deleteKeep", keep);
+      this.deleteKeepDialogVal = false;
+      this.viewKeepDialogVal = false;
     }
   }
 };

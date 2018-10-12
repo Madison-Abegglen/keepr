@@ -134,6 +134,18 @@ export default new Vuex.Store({
         })
     },
 
+    // DELETE KEEP BY ID 
+
+    deleteKeep({ commit, dispatch }, keep) {
+      api.delete('keeps/' + keep.id)
+        .then(res => {
+          dispatch('getUserKeeps')
+        })
+        .catch(e => {
+          console.log('Failed to delete keep')
+        })
+    },
+
 
     // GET USER VAULTS
 

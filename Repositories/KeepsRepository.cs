@@ -46,7 +46,8 @@ namespace keepr.Repositories
       return keep;
     }
 
-    internal Keep Update(Keep keep)
+    // UPDATE KEEP 
+    public Keep Update(Keep keep)
     {
       _db.Execute(@"
       UPDATE keeps SET 
@@ -60,11 +61,11 @@ namespace keepr.Repositories
       return keep;
     }
 
-
-
-    // UPDATE KEEP 
-
-
     // DELETE KEEP 
+    public void Delete(int Id)
+    {
+      _db.Execute("DELETE FROM keeps WHERE id = @Id", new { Id });
+      return;
+    }
   }
 }
