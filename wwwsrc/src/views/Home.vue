@@ -9,7 +9,7 @@
 
       <!-- <v-card class="searchbar">
         <v-text-field label="Search Keepr" prepend prepend-icon="search">
-        </v-text-field>
+        </v-text-field> 
       </v-card> -->
 
       <v-btn class="upper logout" raised @click="logoutDialog = true">logout</v-btn>
@@ -102,7 +102,7 @@
                       class="keep-img"
                     >
                     <div>
-                      <v-btn class="keep-card-actions" fab>
+                      <v-btn @click="viewKeep(keep)" class="keep-card-actions" fab>
                         <v-icon color="#e71d36">visibility</v-icon>
                       </v-btn>
                       <v-btn class="keep-card-actions" fab>
@@ -141,7 +141,7 @@
       <!-- DIALOG SECTION -->
 
 
-      <!-- VAULT DIALOG -->
+      <!-- CREATE VAULT DIALOG -->
       <v-dialog v-model="newVaultDialogVal" width="800">
         <v-card class="form">
           <v-card-title class="upper text-bold">Create new vault</v-card-title>
@@ -157,7 +157,7 @@
         </v-card>
       </v-dialog>
 
-      <!-- KEEP DIALOG -->
+      <!--CREATE KEEP DIALOG -->
       <v-dialog v-model="newKeepDialogVal" width="800">
         <v-card class="form">
           <v-card-title class="upper">Create new keep</v-card-title>
@@ -192,6 +192,30 @@
         </v-card>
       </v-dialog>
 
+      <!-- VIEW KEEP DIALOG -->
+      <v-dialog v-model="viewKeepDialogVal" width="800">
+        <v-card class="view-keep-card">
+          <v-img 
+            :src="activeKeep.img"
+            aspect-ratio="2"
+          >
+          </v-img>
+          
+          <v-card-title primary-title class="activeKeep-title">
+            <div>
+              <h4 class="activeKeep-name">{{activeKeep.name}}</h4>
+              <p class="activeKeep-description">{{activeKeep.description}}</p>
+            </div>
+
+            <p class="activeKeep-views">
+              <v-icon class="view-icon">visibility</v-icon>
+              Views: {{activeKeep.views}}
+            </p>
+          </v-card-title>
+
+        </v-card>
+      </v-dialog>
+
     </div>
   </div>
 </template>
@@ -213,7 +237,9 @@ export default {
         isPrivate: false
       },
       newKeepDialogVal: false,
-      logoutDialog: false
+      logoutDialog: false,
+      viewKeepDialogVal: false,
+      activeKeep: {}
     };
   },
 
@@ -262,6 +288,12 @@ export default {
       this.newKeepDialog.img = "";
       this.newKeepDialog.description = "";
       this.newKeepDialog.isPrivate = false;
+    },
+    viewKeep(keep) {
+      this.activeKeep = keep;
+      this.viewKeepDialogVal = true;
+      // make put request to increment views
+      this.$store.dispatch("incrementViews", this.activeKeep);
     }
   }
 };
@@ -420,5 +452,36 @@ export default {
 }
 .v-card-btn {
   position: absolute;
+}
+.view-keep-card {
+  padding: 1.5rem;
+}
+.activeKeep-title {
+  display: flex;
+  justify-content: space-between;
+}
+.activeKeep-name {
+  font-size: 2rem;
+  color: #2ec4b6;
+  display: flex;
+  justify-content: start;
+}
+.activeKeep-description {
+  font-size: 1.2rem;
+  color: #565656;
+  display: flex;
+  justify-content: start;
+}
+.activeKeep-views {
+  font-size: 1.2rem;
+  color: #565656;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 1rem;
+  margin-top: 1rem;
+}
+.view-icon {
+  margin-right: 0.5rem;
 }
 </style>

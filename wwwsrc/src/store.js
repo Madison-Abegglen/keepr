@@ -23,7 +23,8 @@ export default new Vuex.Store({
     userKeeps: [],
     publicKeeps: [],
     userVaults: [],
-    vaultKeeps: []
+    vaultKeeps: [],
+    activeKeep: {}
   },
   mutations: {
     setUser(state, user) {
@@ -37,6 +38,9 @@ export default new Vuex.Store({
     },
     setPublicKeeps(state, publicKeeps) {
       state.publicKeeps = publicKeeps;
+    },
+    setActiveKeep(state, activeKeep) {
+      state.activeKeep = activeKeep;
     }
   },
   actions: {
@@ -116,6 +120,22 @@ export default new Vuex.Store({
           console.log('Failed to create keep')
         })
     },
+
+    // INCREMENT VIEWS
+
+    incrementViews({ commit, dispatch }, activeKeep) {
+      activeKeep.views++
+      api.put('keeps', activeKeep)
+        // .then(res => {
+        //   dispatch('getUserKeeps')
+        // })
+        .catch(e => {
+          console.log('Failed to increment active keep views')
+        })
+    },
+
+
+    // GET USER VAULTS
 
     getUserVaults({ commit }) {
       api.get('vaults/myVaults')

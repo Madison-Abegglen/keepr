@@ -46,6 +46,20 @@ namespace keepr.Repositories
       return keep;
     }
 
+    internal Keep Update(Keep keep)
+    {
+      _db.Execute(@"
+      UPDATE keeps SET 
+        name = @Name, 
+        img = @Img, 
+        description = @Description, 
+        isPrivate = @IsPrivate, 
+        views = @views
+        WHERE id = @Id
+      ", keep);
+      return keep;
+    }
+
 
 
     // UPDATE KEEP 
