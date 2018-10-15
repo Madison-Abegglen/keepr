@@ -27,7 +27,7 @@
         <h1 class="upper heading">welcome to <br/> {{user.username}}'s dashboard</h1>
       </section>
     
-      <v-divider color="#2ec4b6"></v-divider>
+      <v-divider style="margin-bottom: 2rem;" color="#2ec4b6"></v-divider>
 
       <!-- USER VAULTS & KEEPS -->
         
@@ -72,7 +72,7 @@
           </v-container>
         </v-card>
 
-        <v-divider color="#2ec4b6"></v-divider>
+        <v-divider style="margin-top: 3rem; margin-bottom: 3rem;" color="#2ec4b6"></v-divider>
 
 
         <!-- DASHBOARD KEEPS -->
@@ -134,7 +134,7 @@
           </v-container>
         </v-card>
 
-        <v-divider color="#2ec4b6"></v-divider>
+        <v-divider style="margin-top: 3rem;" color="#2ec4b6"></v-divider>
       </section>
 
 
@@ -157,7 +157,7 @@
         </v-card>
       </v-dialog>
 
-      <!--CREATE KEEP DIALOG -->
+      <!-- NEW KEEP DIALOG -->
       <v-dialog v-model="newKeepDialogVal" width="800">
         <v-card class="form">
           <v-card-title class="upper">Create new keep</v-card-title>
@@ -175,19 +175,21 @@
         </v-card>
       </v-dialog>
 
-      <!-- LOGOUT DIALOG -->
-      <v-dialog v-model="logoutDialog" width="800">
+      <!--EDIT KEEP DIALOG -->
+      <v-dialog v-model="editKeepDialogVal" width="800">
         <v-card class="form">
-          <v-card-title class="upper">Logout</v-card-title>
+          <v-card-title class="upper">Edit this keep</v-card-title>
 
           <v-divider color="#2ec4b6"></v-divider>
 
-          <v-card-text class="upper">are you sure you want to logout?</v-card-text>
+          <v-text-field label="Title" v-model="editKeepDialog.name"></v-text-field>
+          <v-text-field label="Img Link" v-model="editKeepDialog.img"></v-text-field>
+          <v-text-field label="Description" v-model="editKeepDialog.description"></v-text-field>
+          <v-checkbox label="Make Keep Private" v-model="editKeepDialog.isPrivate"></v-checkbox>
 
           <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn class="upper" @click="logoutDialog = false">cancel</v-btn>
-            <v-btn class="upper" @click="logout">logout</v-btn>
+            <v-btn type="submit" @click="editKeep(keep); editKeepDialogVal = false;" class="upper">edit keep</v-btn>
+            <v-btn @click="editKeepDialogVal = false" class="upper">cancel</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -213,6 +215,11 @@
                 <v-icon class="view-icon">visibility</v-icon>
               </p>
 
+              <v-btn @click="editKeepDialogVal = true" class="activeKeep-edit">
+                Edit
+                <v-icon>edit</v-icon>
+              </v-btn>
+
               <v-btn @click="deleteKeepDialogVal = true" class="activeKeep-delete"> 
                 Delete
                 <v-icon class="delete-icon">delete</v-icon>
@@ -220,6 +227,23 @@
             </div>
           </v-card-title>
 
+        </v-card>
+      </v-dialog>
+
+      <!-- LOGOUT DIALOG -->
+      <v-dialog v-model="logoutDialog" width="800">
+        <v-card class="form">
+          <v-card-title class="upper">Logout</v-card-title>
+
+          <v-divider color="#2ec4b6"></v-divider>
+
+          <v-card-text class="upper">are you sure you want to logout?</v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn class="upper" @click="logoutDialog = false">cancel</v-btn>
+            <v-btn class="upper" @click="logout">logout</v-btn>
+          </v-card-actions>
         </v-card>
       </v-dialog>
 
@@ -258,9 +282,16 @@ export default {
 
       activeKeep: {},
       newKeepDialogVal: false,
+      editKeepDialogVal: false,
       viewKeepDialogVal: false,
       deleteKeepDialogVal: false,
       newKeepDialog: {
+        name: "",
+        img: "",
+        description: "",
+        isPrivate: false
+      },
+      editKeepDialog: {
         name: "",
         img: "",
         description: "",
@@ -321,6 +352,10 @@ export default {
       this.newKeepDialog.img = "";
       this.newKeepDialog.description = "";
       this.newKeepDialog.isPrivate = false;
+    },
+    editKeep(keep) {
+      this.editKeepDialogVal = false;
+      this.$store.dispatch("editKeep", keep);
     },
     viewKeep(keep) {
       this.activeKeep = keep;
@@ -385,6 +420,7 @@ export default {
   margin: 1rem;
 }
 .heading {
+  margin-top: 2rem;
   margin-bottom: 2rem;
   font-size: 3rem;
   display: flex;

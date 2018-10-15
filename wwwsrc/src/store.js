@@ -171,12 +171,19 @@ export default new Vuex.Store({
         })
     },
 
+    // ADD KEEP TO VAULT
+
+    // addKeepToVault({ commit, dispatch }, keep) {
+    //   api.put('')
+    // },
+
     // DELETE VAULT
 
     deleteVault({ commit, dispatch }, vault) {
       api.delete('vaults/' + vault.id)
         .then(res => {
           dispatch('getUserVaults')
+          router.push({ name: "home" });
         })
         .catch(e => {
           console.log('Failed to delete vault')
