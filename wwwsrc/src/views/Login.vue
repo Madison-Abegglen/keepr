@@ -94,7 +94,7 @@
                       class="keep-img"  
                     >
                     <div>
-                      <v-btn class="keep-card-actions" fab>
+                      <v-btn @click="viewActiveKeep(keep)" class="keep-card-actions" fab>
                         <v-icon color="#e71d36">visibility</v-icon>
                       </v-btn>
                     </div>
@@ -114,6 +114,34 @@
           </v-container>
         </v-card>
       </section>
+
+
+      <!-- VIEW ACTIVE KEEP DIALOG -->
+
+      <v-dialog  v-model="viewActiveKeepDialogVal" width="800">
+        <v-card class="view-keep-card">
+          <v-img 
+            :src="activeKeep.img"
+            aspect-ratio="2"
+          >
+          </v-img>
+
+          <v-card-title primary-title class="activeKeep-title">
+            <div>
+              <h4 class="activeKeep-name">{{activeKeep.name}}</h4>
+              <p class="activeKeep-description">{{activeKeep.description}}</p>
+            </div>
+
+            <div>
+              <p class="activeKeep-views">
+                Views: {{activeKeep.views}}
+                <v-icon class="view-icon">visibility</v-icon>
+              </p>
+
+            </div>
+          </v-card-title>
+        </v-card>
+      </v-dialog>
     </div>
   </div>
 </template>
@@ -132,7 +160,9 @@ export default {
         email: "",
         password: "",
         username: ""
-      }
+      },
+      activeKeep: {},
+      viewActiveKeepDialogVal: false
     };
   },
   mounted() {
@@ -151,6 +181,11 @@ export default {
     },
     loginUser() {
       this.$store.dispatch("login", this.creds);
+    },
+    viewActiveKeep(keep) {
+      this.activeKeep = keep;
+      this.viewActiveKeepDialogVal = true;
+      this.$store.dispatch("incrementViews", this.activeKeep);
     }
   }
 };
@@ -258,5 +293,37 @@ export default {
   color: #565656;
   display: flex;
   justify-content: start;
+}
+.activeKeep-title {
+  display: flex;
+  justify-content: space-between;
+}
+.activeKeep-name {
+  font-size: 2rem;
+  color: #2ec4b6;
+  display: flex;
+  justify-content: start;
+}
+.activeKeep-description {
+  font-size: 1.2rem;
+  color: #565656;
+  display: flex;
+  justify-content: start;
+}
+.activeKeep-views {
+  font-size: 1.2rem;
+  color: #565656;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 1rem;
+  margin-top: 1rem;
+}
+.view-icon {
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+}
+.view-keep-card {
+  padding: 1.5rem;
 }
 </style>

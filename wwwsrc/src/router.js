@@ -5,6 +5,8 @@ import Home from './views/Home.vue'
 // @ts-ignore
 import Login from './views/Login.vue'
 
+import VaultView from './views/VaultView.vue'
+
 Vue.use(Router)
 
 export default new Router({
@@ -18,6 +20,12 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/vault-view/:id',
+      name: 'vaultView',
+      props: true,
+      component: VaultView
     }
   ]
 })

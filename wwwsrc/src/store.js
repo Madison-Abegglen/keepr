@@ -24,7 +24,7 @@ export default new Vuex.Store({
     publicKeeps: [],
     userVaults: [],
     vaultKeeps: [],
-    activeKeep: {}
+    activeKeep: {},
   },
   mutations: {
     setUser(state, user) {
@@ -170,5 +170,6 @@ export default new Vuex.Store({
           console.log('Failed to create new vault')
         })
     }
+
   }
 })
