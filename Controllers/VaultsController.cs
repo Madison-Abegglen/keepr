@@ -36,5 +36,13 @@ namespace keepr.Controllers
       }
       throw new Exception("INVALID VAULT");
     }
+
+    [Authorize]
+    [HttpDelete("{vaultId}")]
+    public void Delete(int vaultId)
+    {
+      _repo.Delete(vaultId);
+      return;
+    }
   }
 }

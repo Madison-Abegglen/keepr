@@ -169,6 +169,18 @@ export default new Vuex.Store({
         .catch(e => {
           console.log('Failed to create new vault')
         })
+    },
+
+    // DELETE VAULT
+
+    deleteVault({ commit, dispatch }, vault) {
+      api.delete('vaults/' + vault.id)
+        .then(res => {
+          dispatch('getUserVaults')
+        })
+        .catch(e => {
+          console.log('Failed to delete vault')
+        })
     }
 
   }

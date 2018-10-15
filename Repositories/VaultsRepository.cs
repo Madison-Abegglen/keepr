@@ -33,5 +33,12 @@ namespace keepr.Repositories
       vault.Id = id;
       return vault;
     }
+
+    // DELETE VAULT
+    public void Delete(int Id)
+    {
+      _db.Execute("DELETE FROM vaults WHERE id = @Id", new { Id });
+      return;
+    }
   }
 }
