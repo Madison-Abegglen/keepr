@@ -7,12 +7,11 @@
 
       <v-spacer></v-spacer>
 
-      <!-- <v-card class="searchbar">
-        <v-text-field label="Search Keepr" prepend prepend-icon="search">
-        </v-text-field> 
-      </v-card> -->
-
-      <v-btn class="upper logout" raised :to="{ name: 'home' }">go home</v-btn>
+      <v-btn class="upper logout" style="padding-right: 2rem;" raised :to="{ name: 'home' }">
+        <v-icon style="margin-bottom: .2rem;">keyboard_arrow_left</v-icon>  
+        back to home
+      </v-btn>
+      
       <v-btn class="upper logout" raised @click="logoutDialog = true">logout</v-btn>
     </v-toolbar>
 
@@ -54,18 +53,18 @@
               <v-layout v-if="userVaults.length > 0">
                 <div class="vaults-container">
                   <v-card v-for="vault in userVaults" :key="vault._id" class="vault-card" hover> 
-                    <v-card-title primary-title>
+                    <v-card-title primary-title class="vault-creds"> 
                       <div>
                         <h4 class="vault-name">{{vault.name}}</h4>
                         <p class="vault-description">{{vault.description}}</p>
                       </div>
+                      <div class="v-card-btn">
+                        <v-btn @click="$router.push({ name: 'vaultView', params: { id: vault.id }})" class="vault-card-actions" fab>
+                          <v-icon color="#e71d36">open_in_new</v-icon>
+                        </v-btn>
+                      </div>
                     </v-card-title>
 
-                    <div class="v-card-btn">
-                      <v-btn @click="$router.push({ name: 'vaultView', params: { id: vault.id }})" class="vault-card-actions" fab>
-                        <v-icon color="#e71d36">open_in_new</v-icon>
-                      </v-btn>
-                    </div>
                   </v-card>
                 </div>
               </v-layout>

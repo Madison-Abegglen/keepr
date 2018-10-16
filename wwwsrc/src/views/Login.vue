@@ -10,6 +10,11 @@
         <v-text-field label="Search Keepr" prepend prepend-icon="search">
         </v-text-field>
       </v-card> -->
+      <v-btn class="upper" style="padding-left: 2rem; margin-top: .5rem;" raised :to="{ name: 'home' }">
+        back to home
+        <v-icon style="margin-bottom: .1rem">keyboard_arrow_right</v-icon>
+      </v-btn>
+
     </v-toolbar>
 
     <div class="page-wrapper" style="padding-top: 3rem;">
@@ -52,13 +57,13 @@
 
             <div class="mt1">
               <div v-if="loginForm" >
-                <p>No account? Click to register</p>
+                <p>No account? Click button below to register</p>
                 <div>
                   <v-btn class="mt1"  @click="loginForm = !loginForm">Register</v-btn>
                 </div>
               </div>
               <div v-else>
-                <p>Already have an account? Click to login</p>
+                <p>Already have an account? Click button below to login</p>
                 <div>
                   <v-btn class="mt1"  @click="loginForm = !loginForm">Login</v-btn>
                 </div>
@@ -68,53 +73,6 @@
         </v-card>
       </section>
     </div>
-
-      <!-- LOOK AT KEEPS SECTION -->
-    <div class="page-wrapper">
-      <section>
-        <v-card class="see-more-card">
-          <v-container>
-            <div>
-              <v-card-title class="upper" style="display: flex; flex-direction: column;">
-                <h2 class="see-more-title">Curious about Keepr?</h2>
-                <p class="see-more-subtitle">Checkout some of our users content below.</p>
-              </v-card-title>
-
-              <v-divider color="#2ec4b6"></v-divider>
-
-
-              <!-- ALL PUBLIC KEEPS -->
-
-              <v-layout v-if="publicKeeps.length > 0">
-                <div class="keeps-container">
-                  <v-card v-for="keep in publicKeeps" :key="keep._id" class="keep-card" hover>
-                    <v-img
-                      :src="keep.img"
-                      aspect-ratio="1.5"
-                      class="keep-img"  
-                    >
-                    <div>
-                      <v-btn @click="viewActiveKeep(keep)" class="keep-card-actions" fab>
-                        <v-icon color="#e71d36">visibility</v-icon>
-                      </v-btn>
-                    </div>
-                    </v-img>
-
-                    <v-card-title primary-title>
-                      <div>
-                        <h4 class="keep-name">{{keep.name}}</h4>
-                        <p class="keep-description">{{keep.description}}</p>
-                      </div>
-                    </v-card-title>
-                  </v-card>
-                </div>
-              </v-layout>
-
-            </div>
-          </v-container>
-        </v-card>
-      </section>
-
 
       <!-- VIEW ACTIVE KEEP DIALOG -->
 
@@ -226,8 +184,9 @@ export default {
 }
 .join {
   width: 45rem;
-  margin-top: 5rem;
-  margin-bottom: 10rem;
+  margin-top: 9rem;
+  padding-top: 4rem;
+  margin-bottom: 6rem;
 }
 .join-title {
   display: flex;

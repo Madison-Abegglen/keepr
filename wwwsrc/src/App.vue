@@ -186,6 +186,8 @@ export default {
 }
 .v-card-btn {
   position: absolute;
+  bottom: 0;
+  right: 0;
 }
 .view-keep-card {
   padding: 1.5rem;
@@ -221,5 +223,9 @@ export default {
 }
 .delete-keep-warning {
   font-size: 1.2rem;
+}
+.vault-creds {
+  display: flex;
+  justify-content: center;
 }
 </style>
