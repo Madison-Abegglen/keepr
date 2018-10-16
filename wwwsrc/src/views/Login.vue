@@ -167,7 +167,6 @@ export default {
   },
   mounted() {
     //checks for valid session
-    this.$store.dispatch("authenticate");
     this.$store.dispatch("getPublicKeeps");
   },
   computed: {

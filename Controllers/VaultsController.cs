@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace keepr.Controllers
 {
   [Route("api/[controller]")]
+  [Authorize]
   [ApiController]
   public class VaultsController : Controller
   {
@@ -17,15 +18,14 @@ namespace keepr.Controllers
       _repo = repo;
     }
 
-    [Authorize]
-    [HttpGet("myVaults")]
+    [HttpGet]
     public IEnumerable<Vault> Get()
     {
       var userId = HttpContext.User.Identity.Name;
       return _repo.GetUserVaults(userId);
     }
 
-    [Authorize]
+
     [HttpPost]
     public Vault Post([FromBody] Vault vault)
     {
@@ -37,7 +37,23 @@ namespace keepr.Controllers
       throw new Exception("INVALID VAULT");
     }
 
-    [Authorize]
+    [HttpPut]
+    public string Put([FromBody] VaultKeep vaultKeep)
+    {
+      if (ModelState.IsValid)
+      {
+        return _repo.AddVaultKeep(vaultKeep);
+      }
+      return "BAD REQUEST";
+    }
+
+    [HttpGet("{id}")]
+    public IEnumerable<Keep> GetVault(int id)
+    {
+      return _repo.GetKeepsInVault(id);
+    }
+
+
     [HttpDelete("{vaultId}")]
     public void Delete(int vaultId)
     {
