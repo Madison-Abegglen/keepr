@@ -49,7 +49,7 @@
                 </v-btn>
               </v-card-title>
 
-              <p class="upper keep-count">Keep Count: 0 <!-- {{activeVault.keeps}} --></p>
+              <p class="upper keep-count">Keep Count: {{vaultKeeps.length}}</p>
 
               <v-divider color="#2ec4b6"></v-divider>
 

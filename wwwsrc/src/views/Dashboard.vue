@@ -12,6 +12,7 @@
         </v-text-field> 
       </v-card> -->
 
+      <v-btn class="upper logout" raised :to="{ name: 'home' }">go home</v-btn>
       <v-btn class="upper logout" raised @click="logoutDialog = true">logout</v-btn>
     </v-toolbar>
 

@@ -104,7 +104,7 @@
   </v-dialog>
 
   <vault-keep :active-keep="keepToAdd" />
-
+  
   </div>
 </template>
 
@@ -133,6 +133,9 @@ export default {
         isPrivate: false
       }
     };
+  },
+  mounted() {
+    this.$store.dispatch("getUserVaults");
   },
   methods: {
     editKeep(keep) {
